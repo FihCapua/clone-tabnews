@@ -4,7 +4,7 @@ async function query(queryObject) {
   let client;
 
   try {
-    client =  await getNewClient();
+    client = await getNewClient();
 
     const result = await client.query(queryObject);
     return result;
@@ -24,11 +24,11 @@ async function getNewClient() {
     user: process.env.POSTGRES_USER,
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
-    ssl: getSSLValues()
+    ssl: getSSLValues(),
   });
 
   await client.connect();
-  return client
+  return client;
 }
 
 export default {
