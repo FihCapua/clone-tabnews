@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import database from "infra/database";
 import orchestrator from "tests/orchestrator";
 
