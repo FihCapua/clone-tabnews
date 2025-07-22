@@ -13,18 +13,11 @@ export default function StatusPage() {
     refreshInterval: 2000,
   });
 
-  const database = data?.dependencies?.database;
-
   return (
     <>
-      <h1>Status</h1>
+      <h2>Status</h2>
       <UpdatedAt isLoading={isLoading} updatedAt={data?.updated_at} />
-      <MaxConnections isLoading={isLoading} max={database?.max_connections} />
-      <OpenedConnections
-        isLoading={isLoading}
-        opened={database?.opened_connections}
-      />
-      <Version isLoading={isLoading} version={database?.version} />
+      <DatabaseStatus data={data} />
     </>
   );
 }
@@ -39,28 +32,33 @@ function UpdatedAt({ isLoading, updatedAt }) {
   );
 }
 
-function MaxConnections({ isLoading, max }) {
-  return (
-    <div>
-      <p>Número máximo de conexões: {isLoading ? "Carregando..." : max}</p>
-    </div>
-  );
-}
+function DatabaseStatus({ isLoading, data }) {
+  const database = data?.dependencies?.database;
 
-function OpenedConnections({ isLoading, opened }) {
-  return (
-    <div>
-      <p>
-        Quantidade de conexões abertas: {isLoading ? "Carregando..." : opened}
-      </p>
-    </div>
-  );
-}
+  let databaseStatusInformation = "Carregando...";
 
-function Version({ isLoading, version }) {
+  if (!isLoading && data && database) {
+    databaseStatusInformation = (
+      <>
+        <div>
+          <p>Versão: {database.version}</p>
+        </div>
+
+        <div>
+          <p>Conexões abertas: {database.opened_connections}</p>
+        </div>
+
+        <div>
+          <p>Conexões máximas: {database.max_connections}</p>
+        </div>
+      </>
+    );
+  }
+
   return (
-    <div>
-      <p>Versão: {isLoading ? "Carregando..." : version}</p>
-    </div>
+    <>
+      <h2>Database</h2>
+      <div>{databaseStatusInformation}</div>
+    </>
   );
 }
