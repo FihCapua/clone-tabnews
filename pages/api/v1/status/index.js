@@ -1,8 +1,27 @@
+import { createRouter } from "next-connect"
 import database from "infra/database";
-import { InternalServerError } from "infra/errors";
+import { InternalServerError, MethodNotAllowedError } from "infra/errors";
 
-async function status(request, response) {
-  try {
+const router = createRouter();
+
+router.get(getHandler)
+
+export default router.handler({
+  onNoMatch: onNoMatchHandler,
+  onError: onErrorHandler
+})
+
+function onNoMatchHandler(request, response) {
+  const publicErrorObject = new MethodNotAllowedError();
+  response.status(publicErrorObject.statusCode).json(publicErrorObject);
+}
+
+function onErrorHandler(error, request, response) {
+  const publicErrorObject = new MethodNotAllowedError();
+  response.status(publicErrorObject.statusCode).json(publicErrorObject);
+}
+
+async function getHandler(request, response) {
     const updatedAt = new Date().toISOString();
 
     const databaseVersionResult = await database.query("SHOW server_version;");
@@ -32,16 +51,4 @@ async function status(request, response) {
         },
       },
     });
-  } catch (error) {
-    const publicErrorObject = new InternalServerError({
-      cause: error,
-    });
-
-    console.log("\n Erro dentro do catch do controller:");
-    console.error(publicErrorObject);
-
-    response.status(500).json(publicErrorObject);
-  }
 }
-
-export default status;
