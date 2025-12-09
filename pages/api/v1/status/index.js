@@ -1,6 +1,6 @@
 import { createRouter } from "next-connect"
 import database from "infra/database";
-import { InternalServerError, MethodNotAllowedError } from "infra/errors";
+import { MethodNotAllowedError } from "infra/errors";
 
 const router = createRouter();
 
