@@ -22,7 +22,7 @@ export default function StatusPage() {
   );
 }
 
-function  UpdatedAt({ isLoading, updatedAt }) {
+function UpdatedAt({ isLoading, updatedAt }) {
   const formattedDate = new Date(updatedAt).toLocaleString("pt-BR");
 
   return (
