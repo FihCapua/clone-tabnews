@@ -40,7 +40,7 @@ async function getHandler(request, response) {
   try {
     const pendingMigrations = await migrationRunner({
       ...defaultMigrationOptions,
-      dbClient
+      dbClient,
     });
     response.status(200).json(pendingMigrations);
   } finally {
@@ -57,7 +57,7 @@ async function postHandler(request, response) {
     const migratedMigrations = await migrationRunner({
       ...defaultMigrationOptions,
       dbClient,
-      dryRun: false
+      dryRun: false,
     });
 
     const statusCode = migratedMigrations.length > 0 ? 201 : 200;
