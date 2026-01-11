@@ -1,6 +1,7 @@
 import migrationRunner from "node-pg-migrate";
 import { resolve } from "node:path";
 import database from "infra/database";
+import { MigrationError } from "infra/errors";
 
 const defaultMigrationOptions = {
   dryRun: true,
@@ -40,6 +41,11 @@ async function runPendingMigrations() {
     });
 
     return migratedMigrations;
+  } catch (error) {
+    throw new MigrationError({
+      cause: error,
+      message: `Falha ao executar migrações: ${error.message}`,
+    });
   } finally {
     await dbClient?.end();
   }
