@@ -56,3 +56,23 @@ export class MethodNotAllowedError extends Error {
     };
   }
 }
+
+export class MigrationError extends Error {
+  constructor({ cause, message }) {
+    super(message || "Erro ao executar as migrações do banco de dados.", {
+      cause,
+    });
+    this.name = "MigrationError";
+    this.action = "Verifique os logs de migração e o estado do banco de dados.";
+    this.statusCode = 500;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
