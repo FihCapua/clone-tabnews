@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import { version as uuidVersion } from "uuid";
 import orchestrator from "tests/orchestrator";
-import database from "infra/database";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -12,8 +11,6 @@ beforeAll(async () => {
 describe("POST /api/v1/users", () => {
   describe("Anonymous user", () => {
     test("With unique and valid data", async () => {
-      const users = await database.query("SELECT * FROM users");
-
       const response = await fetch("http://localhost:3000/api/v1/users", {
         method: "POST",
         headers: {
@@ -44,8 +41,6 @@ describe("POST /api/v1/users", () => {
     });
 
     test("With duplicated 'email'", async () => {
-      const users = await database.query("SELECT * FROM users");
-
       const response1 = await fetch("http://localhost:3000/api/v1/users", {
         method: "POST",
         headers: {
@@ -83,8 +78,6 @@ describe("POST /api/v1/users", () => {
     });
 
     test("With duplicated 'username'", async () => {
-      const users = await database.query("SELECT * FROM users");
-
       const response1 = await fetch("http://localhost:3000/api/v1/users", {
         method: "POST",
         headers: {

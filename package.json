@@ -17,6 +17,7 @@
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
     "lint:eslint:check": "next lint --dir .",
+    "lint:eslint:fix": "next lint --dir . --fix",
     "prepare": "husky"
   },
   "author": "",
